@@ -26,7 +26,8 @@ class Variant:
 				try: indel = int(self.s[i+1]); i += (indel + 2 + 1)
 				except: i += 1
 			elif self.s[i] in {"A", "T", "G", "C", "a", "t", "g", "c"}:
-				self.__d[self.s[i]] = self.__d[self.s[i]] + 1 if self.__d.has_key(self.s[i]) else 1
+				key = self.s[i].upper()
+				self.__d[key] = self.__d[key] + 1 if self.__d.has_key(key) else 1
 				i += 1
 			# else:
 			# 	self.__count += 1
