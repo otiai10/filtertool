@@ -1,4 +1,4 @@
-import sys
+
 class Variant:
 
 	def __init__(self, chrm, position, ref, depth, s):

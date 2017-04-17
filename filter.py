@@ -1,6 +1,5 @@
 from variant import Variant
 
-
 class Filter:
 
 	def __init__(self, depth = 10, count = 3, freq = 0.2):
