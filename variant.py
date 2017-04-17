@@ -8,24 +8,26 @@ class Variant:
 		self.s = s
 		self.depth = depth
 		self.__nega = 0
-		self.tokens = []
+		self.__d = {}
 
 	def parse(self):
 		i = 0
 		while i < len(self.s):
 			if self.s[i] in {".", ","}:
-				# self.tokens += [self.s[i]]
 				i += 1
 				self.__nega += 1
-			# elif self.s[i] in {"$", "^"}:
-			# 	# Skip
-			# 	i += 1
-			# elif self.s[i] in {"+", "-"}:
-			# 	len_indel = int(self.s[i+1])
-			# 	self.tokens += [self.s[i:(i + len_indel + 2)]]
-			# 	i += (len_indel + 2 + 1)
-			# 	self.__count += 1
-			# 	self.__length += 1
+			elif self.s[i] in {"$", "^"}:
+			 	i += 1
+			elif self.s[i] in {"*"}:
+				i += 1
+				self.__nega += 1
+			elif self.s[i] in {"+", "-"}:
+				self.__nega += 1
+				try: indel = int(self.s[i+1]); i += (indel + 2 + 1)
+				except: i += 1
+			elif self.s[i] in {"A", "T", "G", "C", "a", "t", "g", "c"}:
+				self.__d[self.s[i]] = self.__d[self.s[i]] + 1 if self.__d.has_key(self.s[i]) else 1
+				i += 1
 			# else:
 			# 	self.__count += 1
 			# 	self.__length += 1
@@ -34,6 +36,8 @@ class Variant:
 		
 		return self
 
+	def alt(self):
+		return ''.join(self.__d.keys())
 
 	def count(self):
 		return self.depth - self.__nega

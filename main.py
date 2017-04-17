@@ -3,7 +3,7 @@ import sys
 from filter   import Filter
 
 def compose_out(v):
-	return [v.chrm, v.ref, "X", v.depth, v.count(), v.freq()]
+	return [v.chrm, v.ref, v.alt(), v.depth, v.count(), v.freq()]
 
 def scan(f, fltr):
 	pool = []
