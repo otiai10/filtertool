@@ -17,15 +17,17 @@ class Parser:
 			if self.s[i] in {".", ","}:
 				i += 1
 				self.__nega += 1
-			elif self.s[i] in {"$", "^"}:
+			elif self.s[i] in {"$"}:
 			 	i += 1
+			elif self.s[i] in {"^"}:
+			 	i += 2
 			elif self.s[i] in {"*"}:
 				i += 1
 				self.__nega += 1
 			elif self.s[i] in {"+", "-"}:
 				self.__nega += 1
-				try: indel = int(self.s[i+1]); i += (indel + 2 + 1)
-				except: i += 1
+				indel = int(self.s[i+1])
+				i += (indel + 2 + 1)
 			elif self.s[i] in {"A", "T", "G", "C", "a", "t", "g", "c"}:
 				key = self.s[i].upper()
 				self.__d[key] = self.__d[key] + 1 if self.__d.has_key(key) else 1
