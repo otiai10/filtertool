@@ -20,7 +20,8 @@ def write_result(output_file, result):
 		csv.writer(f, delimiter="\t").writerows(result)
 		
 
-def filtertool_main(argv):
+def filtertool_main(argv = []):
+	argv = sys.argv[1:] if len(argv) == 0 else argv
 	opts, args = getopt.getopt(argv, 'i:o:d:c:f:vt', [
 		"input=", "output=", "depth=", "count=", "freq=", "verbose", "trial"
 	])	
