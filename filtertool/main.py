@@ -30,7 +30,7 @@ def filtertool_main(argv = []):
 	depth = 10
 	count = 3
 	freq = 0.2
-	varbose = False
+	verbose = False
 	trial = False
 	for opt, arg in opts:
 		if opt in ("-v", "--verbose"): verbose = True
