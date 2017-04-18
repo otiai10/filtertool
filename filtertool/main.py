@@ -1,6 +1,6 @@
 import csv
 import sys
-from filter   import Filter
+from filter import Filter
 
 def scan(f, fltr):
 	pool = []
@@ -20,7 +20,7 @@ def write_result(result):
 		csv.writer(f, delimiter="\t").writerows(result)
 		
 
-def main():
+def filtertool_main():
 	fltr = Filter()
 	with open("test.pileup", "r") as f:
 		result = scan(f, fltr)
@@ -28,4 +28,4 @@ def main():
 		write_result(result)
 
 if __name__ == "__main__":
-	main()
+	filtertool_main()
