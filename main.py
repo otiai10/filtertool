@@ -15,7 +15,7 @@ def scan(f, fltr):
 			v = fltr.match(line)
 			if v != None: pool += [compose_out(v)]
 		except Exception as err:
-			print line
+			sys.stderr.write(line)
 			raise err
 	return pool
 
