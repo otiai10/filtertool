@@ -1,4 +1,4 @@
-from variant import Variant
+from parser import Parser
 
 class Filter:
 
@@ -10,9 +10,13 @@ class Filter:
 	def match(self, line):
 		[ch, pos, ref, depth, varieties, qualities] = line.split()
 		depth = int(depth)
-		if depth < self.depth: return None
-		v = Variant(ch, pos, ref, depth, varieties)	
-		v.parse()
-		if v.count() < self.variant_count: return None
-		if v.freq()  < self.variant_freq:  return None
-		return v
+		if depth < self.depth: return []
+		parser = Parser(ch, pos, ref, depth, varieties)	
+		variants = parser.parse().variants()
+		return filter(lambda v: self.__match(v), variants)
+
+	def __match(self, v):
+		if v.count < self.variant_count: return False
+		if v.freq()  < self.variant_freq:  return False
+		return True
+		

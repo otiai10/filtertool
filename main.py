@@ -2,9 +2,6 @@ import csv
 import sys
 from filter   import Filter
 
-def compose_out(v):
-	return [v.chrm, v.position, v.ref, v.alt(), v.depth, v.count(), v.freq()]
-
 def scan(f, fltr):
 	pool = []
 	for i, line in enumerate(f.readlines()):
@@ -12,8 +9,7 @@ def scan(f, fltr):
 		if i % 100000 == 0: sys.stderr.write("{0}\n".format(i))
 		# if i != 0 and i % 100000 == 0: break
 		try:
-			v = fltr.match(line)
-			if v != None: pool += [compose_out(v)]
+			for v in fltr.match(line): pool += [v.compose()]
 		except Exception as err:
 			sys.stderr.write(line)
 			raise err
