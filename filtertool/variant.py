@@ -17,14 +17,14 @@ class Variant:
 
 	def compose(self):
 		_id = "."
-		return [self.chrm, self.position, _id, self.ref, self.alt, self.compose_info()]
+		return [self.chrm, self.position, _id, self.ref, self.alt, 60, "PASS", self.compose_info()]
 
 	def compose_info(self):
 		return "NS={0},DP={1},AF={2}".format(self.count, self.depth, format(self.freq(), '.3f'))
 
 	@classmethod
 	def header(clss):
-		return ["#CHROM", "POS", "ID", "REF", "ALT", "INFO"]
+		return ["#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO"]
 
 	@classmethod
 	def meta(clss):
