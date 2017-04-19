@@ -16,4 +16,5 @@ class Variant:
 		return float(self.count) / self.depth
 
 	def compose(self):
-		return [self.chrm, self.position, self.ref, self.alt, self.depth, self.count, self.freq()]
+		_id = "."
+		return [self.chrm, self.position, _id, self.ref, self.alt, self.depth, self.count, format(self.freq(), '.3f')]
