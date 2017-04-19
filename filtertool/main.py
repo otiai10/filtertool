@@ -6,16 +6,16 @@ from variant import Variant
 def scan(f, fltr, verbose=False, trial=False):
 	pool = Variant.meta()
 	pool += [Variant.header()]
+	head = len(pool)
 	for i, line in enumerate(f.readlines()):
-		if verbose and i != 0 and i % 500 == 0: sys.stderr.write('.')
-		if verbose and i != 0 and i % 100000 == 0: sys.stderr.write("{0}\n".format(i))
-		if trial   and i != 0 and i % 100000 == 0: break
+		if verbose and i % 500 == 0: sys.stderr.write('.')
+		if verbose and i % 100000 == 0: sys.stderr.write("{0}\n".format(i))
+		if trial   and i % 100000 == 0: break
 		try:
 			for v in fltr.match(line): pool += [v.compose()]
 		except Exception as err:
-			sys.stderr.write(line)
-			raise err
-	return pool
+			sys.stderr.write(line); raise err
+	return (pool, head)
 
 def write_result(output_file, result):
 	with open(output_file, "w") as f:
@@ -44,8 +44,8 @@ def filtertool_main(argv = []):
 		elif opt in ("-f", "--freq"): freq = float(arg)
 	fltr = Filter(depth, count, freq)
 	with open(input_file, "r") as f:
-	 	result = scan(f, fltr, verbose, trial)
-	 	sys.stderr.write("FOUND: {0}\n".format(len(result)))
+	 	(result, head) = scan(f, fltr, verbose, trial)
+	 	sys.stderr.write("FOUND: {0}\n".format(len(result) - head))
 	 	write_result(output_file, result)
 
 if __name__ == "__main__":
