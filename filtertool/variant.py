@@ -17,4 +17,19 @@ class Variant:
 
 	def compose(self):
 		_id = "."
-		return [self.chrm, self.position, _id, self.ref, self.alt, self.depth, self.count, format(self.freq(), '.3f')]
+		return [self.chrm, self.position, _id, self.ref, self.alt, self.compose_info()]
+
+	def compose_info(self):
+		return "NS={0},DP={1},AF={2}".format(self.count, self.depth, format(self.freq(), '.3f'))
+
+	@classmethod
+	def header(clss):
+		return ["#CHROM", "POS", "ID", "REF", "ALT", "INFO"]
+
+	@classmethod
+	def meta(clss):
+		return [
+			["##INFO=<ID=NS,Number=1,Type=Integer>"],
+			["##INFO=<ID=DP,Number=1,Type=Integer>"],
+			["##INFO=<ID=AF,Number=A,Type=Float>"]
+		]

@@ -1,9 +1,11 @@
 import csv
 import sys, getopt
 from filter import Filter
+from variant import Variant
 
 def scan(f, fltr, verbose=False, trial=False):
-	pool = []
+	pool = Variant.meta()
+	pool += [Variant.header()]
 	for i, line in enumerate(f.readlines()):
 		if verbose and i != 0 and i % 500 == 0: sys.stderr.write('.')
 		if verbose and i != 0 and i % 100000 == 0: sys.stderr.write("{0}\n".format(i))
