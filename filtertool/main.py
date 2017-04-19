@@ -3,11 +3,14 @@ import sys, getopt
 from filter import Filter
 from variant import Variant
 
-def scan(f, fltr, verbose=False, trial=False):
+def scan(source, fltr, verbose=False, trial=False):
 	pool = Variant.meta()
 	pool += [Variant.header()]
 	head = len(pool)
-	for i, line in enumerate(f.readlines()):
+	line = source.readline()
+	i = 0
+	while line:
+		i += 1
 		if verbose and i % 500 == 0: sys.stderr.write('.')
 		if verbose and i % 100000 == 0: sys.stderr.write("{0}\n".format(i))
 		if trial   and i % 100000 == 0: break
@@ -15,6 +18,7 @@ def scan(f, fltr, verbose=False, trial=False):
 			for v in fltr.match(line): pool += [v.compose()]
 		except Exception as err:
 			sys.stderr.write(line); raise err
+		line = source.readline()
 	return (pool, head)
 
 def write_result(output_file, result):
@@ -43,10 +47,11 @@ def filtertool_main(argv = []):
 		elif opt in ("-c", "--count"): count = int(arg)
 		elif opt in ("-f", "--freq"): freq = float(arg)
 	fltr = Filter(depth, count, freq)
-	with open(input_file, "r") as f:
-	 	(result, head) = scan(f, fltr, verbose, trial)
-	 	sys.stderr.write("FOUND: {0}\n".format(len(result) - head))
-	 	write_result(output_file, result)
+	read_closer = sys.stdin if input_file == "stdin" else open(input_file, "r")
+	(result, head) = scan(read_closer, fltr, verbose, trial)
+	read_closer.close()
+	sys.stderr.write("FOUND: {0}\n".format(len(result) - head))
+	write_result(output_file, result)
 
 if __name__ == "__main__":
 	filtertool_main(sys.argv[1:])
