@@ -1,37 +1,34 @@
 '''
 module filter
 '''
-from filtertool.parser import Parser
 
 class Filter(object):
     '''
     Filter class implements filter
     '''
-    def __init__(self, depth=10, count=3, freq=0.2):
+    def __init__(self, depth=10, count=3, freq=0.2, multi_filter=None):
         self.depth = depth
         self.variant_count = count
         self.variant_freq = freq
+        self.multi_filter = None
 
 
-    def match(self, line):
+    def call_mutations(self, line):
         '''
-        :return: if this line should be called or not
+        let's call mutations!!!
+        :return: list of `Mutation` instances
         '''
-        [ch, pos, ref, depth, varieties, _] = line.split()[:6]
-        depth = int(depth)
-        if depth < self.depth:
-            return []
-        parser = Parser(ch, pos, ref, depth, varieties)
-        variants = parser.parse().variants()
-        return filter(self.__match, variants)
+        return self.__find_matched(line)
 
+    def __find_matched(self, line):
+        '''
+        __match
+        '''
+        mutations = []
 
-    def __match(self, v):
-        '''
-        :return: if this **Variant** should be called or not
-        '''
-        if v.count < self.variant_count:
-            return False
-        if v.freq() < self.variant_freq:
-            return False
-        return True
+        first = line.variants[0]
+        for key in first.valid_keys(self.depth, self.variant_count, self.variant_freq):
+            if self.multi_filter is None or self.multi_filter.match(line):
+                mutations.append(first.mutation_for_key(key))
+
+        return mutations

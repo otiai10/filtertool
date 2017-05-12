@@ -1,13 +1,13 @@
 '''parser for lines of pileup'''
-from filtertool.variant import Variant
+from filtertool.variants import Variants
 
 class Parser(object):
     '''
     Parser is a configurable parser
     '''
 
-    def __init__(self, chrm, position, ref, depth, s):
-        self.chrm = chrm
+    def __init__(self, ch, position, ref, depth, s):
+        self.ch = ch
         self.position = position
         self.ref = ref
         self.s = s
@@ -49,11 +49,4 @@ class Parser(object):
         '''
         :return: detected Variants
         '''
-        return map(self.variant_for_key, self.__d.keys())
-
-
-    def variant_for_key(self, key):
-        '''
-        :return: Variant object for key
-        '''
-        return Variant(self.chrm, self.position, self.ref, key, self.depth, self.__d[key])
+        return Variants(self.ch, self.position, self.ref, self.depth, self.__d)

@@ -4,22 +4,24 @@ module main
 import csv
 import sys
 import getopt
-from filtertool.filter import Filter
-from filtertool.variant import Variant
+
 from filtertool.args import Args
+from filtertool.line import Line
+from filtertool.filter import Filter
+from filtertool.mutation import Mutation
 
 def scan(source, fltr, verbose=False, trial=False):
     '''
     :return: parsed variants pool and header
     '''
 
-    pool = Variant.meta()
-    pool += [Variant.header()]
+    pool = Mutation.meta()
+    pool += [Mutation.header()]
     head = len(pool)
-    line = source.readline()
 
+    l = source.readline()
     i = 0
-    while line:
+    while l:
         i += 1
         if verbose and i % 500 == 0:
             sys.stderr.write('.')
@@ -28,12 +30,13 @@ def scan(source, fltr, verbose=False, trial=False):
         if trial   and i % 100000 == 0:
             break
         try:
-            for v in fltr.match(line):
-                pool += [v.compose()]
+            line = Line(l.split())
+            for mutation in fltr.call_mutations(line):
+                pool += [mutation.compose()]
         except Exception as err:
-            sys.stderr.write(line)
+            sys.stderr.write(l)
             raise err
-        line = source.readline()
+        l = source.readline()
 
     return (pool, head)
 
