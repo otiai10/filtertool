@@ -34,8 +34,8 @@ class Fishers(MFAlgorithm):
         x = line.variants[0]
         y = line.variants[1]
         table = [
-            [x.dictionary[key], x.depth - x.dictionary[key]],
-            [y.dictionary[key], y.depth - y.dictionary[key]]
+            [x.dictionary.get(key, 0), x.depth - x.dictionary.get(key, 0)],
+            [y.dictionary.get(key, 0), y.depth - y.dictionary.get(key, 0)]
         ]
         _, pvalue = scipy.stats.fisher_exact(table)
         return pvalue > self.pvalue
