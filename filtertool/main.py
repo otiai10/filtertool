@@ -54,13 +54,13 @@ def filtertool_main(argv=None):
     '''
     This function is a proxy to call main stream instead of pip/bin
     '''
-    opts, _ = getopt.getopt(argv if argv else sys.argv[1:], 'i:o:d:c:f:vt', [
-        "input=", "output=", "depth=", "count=", "freq=", "verbose", "trial"
+    opts, _ = getopt.getopt(argv if argv else sys.argv[1:], 'i:o:d:c:f:a:vt', [
+        "input=", "output=", "depth=", "count=", "freq=", "alg=", "verbose", "trial"
     ])
     args = Args()
     args.parse(opts)
 
-    multi_filter = MultiFilter(alg=Fishers(p=0.8))
+    multi_filter = MultiFilter(alg=args.alg)
 
     fltr = Filter(args.depth, args.count, args.freq, multi_filter)
     read_closer = sys.stdin if args.input_file == "stdin" else open(args.input_file, "r")

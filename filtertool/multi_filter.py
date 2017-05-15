@@ -47,6 +47,12 @@ class MultiFilter(object):
     '''
     def __init__(self, alg=None):
         self.alg = alg
+        if alg is None:
+            return
+        if alg["name"] in ("fishers", "Fishers"):
+            self.alg = Fishers(alg["params"]["p"])
+        else:
+            raise Exception("No MFAlgorithm exists with name:", alg["name"])
 
 
     def match(self, line, key):
@@ -54,5 +60,5 @@ class MultiFilter(object):
         match
         '''
         if self.alg is None or isinstance(self.alg.match, types.MethodType) is False:
-            return False
+            return True
         return self.alg.match(line, key)
