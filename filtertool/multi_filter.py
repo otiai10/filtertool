@@ -23,9 +23,9 @@ class Fishers(MFAlgorithm):
     '''
     implements fisher test
     '''
-    def __init__(self, p=0.8):
+    def __init__(self, p=0.1):
         super(Fishers, self).__init__()
-        self.pvalue = float(p)
+        self.pvalue = float(p if p is not None else 0.1)
 
     def match(self, line, key):
         '''
@@ -38,7 +38,7 @@ class Fishers(MFAlgorithm):
             [y.dictionary.get(key, 0), y.depth - y.dictionary.get(key, 0)]
         ]
         _, pvalue = scipy.stats.fisher_exact(table)
-        return pvalue > self.pvalue
+        return pvalue < self.pvalue
 
 class MultiFilter(object):
     '''
@@ -50,7 +50,7 @@ class MultiFilter(object):
         if alg is None:
             return
         if alg["name"] in ("fishers", "Fishers"):
-            self.alg = Fishers(alg["params"]["p"])
+            self.alg = Fishers(p=alg["params"].get("p"))
         else:
             raise Exception("No MFAlgorithm exists with name:", alg["name"])
 
