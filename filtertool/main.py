@@ -8,7 +8,7 @@ import getopt
 from filtertool.args import Args
 from filtertool.line import Line
 from filtertool.filter import Filter
-from filtertool.multi_filter import MultiFilter, Fishers
+from filtertool.multi_filter import MultiFilter
 from filtertool.mutation import Mutation
 
 def scan(source, fltr, verbose=False, trial=False):
