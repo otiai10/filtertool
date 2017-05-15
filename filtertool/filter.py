@@ -10,7 +10,7 @@ class Filter(object):
         self.depth = depth
         self.variant_count = count
         self.variant_freq = freq
-        self.multi_filter = None
+        self.multi_filter = multi_filter
 
 
     def call_mutations(self, line):
@@ -28,7 +28,7 @@ class Filter(object):
 
         first = line.variants[0]
         for key in first.valid_keys(self.depth, self.variant_count, self.variant_freq):
-            if self.multi_filter is None or self.multi_filter.match(line):
+            if self.multi_filter is None or self.multi_filter.match(line, key):
                 mutations.append(first.mutation_for_key(key))
 
         return mutations
