@@ -8,6 +8,7 @@ import getopt
 from filtertool.args import Args
 from filtertool.line import Line
 from filtertool.filter import Filter
+from filtertool.multi_filter import MultiFilter
 from filtertool.mutation import Mutation
 
 def scan(source, fltr, verbose=False, trial=False):
@@ -59,7 +60,9 @@ def filtertool_main(argv=None):
     args = Args()
     args.parse(opts)
 
-    fltr = Filter(args.depth, args.count, args.freq)
+    mf = MultiFilter()
+
+    fltr = Filter(args.depth, args.count, args.freq, mf)
     read_closer = sys.stdin if args.input_file == "stdin" else open(args.input_file, "r")
     (result, head) = scan(read_closer, fltr, args.verbose, args.trial)
     read_closer.close()
