@@ -2,7 +2,7 @@
 Variant class
 '''
 
-from filtertool.mutation import Mutation
+from .mutation import Mutation
 
 class Variants(object):
     '''

@@ -1,6 +1,6 @@
 '''parser for lines of pileup'''
 import re
-from filtertool.variants import Variants
+from .variants import Variants
 
 class Parser(object):
     '''

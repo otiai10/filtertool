@@ -5,11 +5,11 @@ import csv
 import sys
 import getopt
 
-from filtertool.args import Args
-from filtertool.line import Line
-from filtertool.filter import Filter
-from filtertool.multi_filter import MultiFilter
-from filtertool.mutation import Mutation
+from .args import Args
+from .line import Line
+from .filter import Filter
+from .multi_filter import MultiFilter
+from .mutation import Mutation
 
 def scan(source, fltr, verbose=False, trial=False):
     '''

@@ -1,7 +1,7 @@
 '''
 Line
 '''
-from filtertool.parser import Parser
+from .parser import Parser
 
 class Line(object):
     '''
