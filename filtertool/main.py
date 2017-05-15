@@ -22,10 +22,15 @@ def scan(source, fltr, verbose=False, trial=False):
 
     l = source.readline()
     i = 0
+    tmp = 0
     while l:
         i += 1
         if verbose and i % 500 == 0:
-            sys.stderr.write('.')
+            if tmp > 0:
+                sys.stderr.write('|')
+            else:
+                sys.stderr.write('.')
+            tmp = 0
         if verbose and i % 100000 == 0:
             sys.stderr.write("{0}\n".format(i))
         if trial   and i % 100000 == 0:
@@ -33,6 +38,7 @@ def scan(source, fltr, verbose=False, trial=False):
         try:
             line = Line(l.split())
             for mutation in fltr.call_mutations(line):
+                tmp += 1
                 pool += [mutation.compose()]
         except Exception as err:
             sys.stderr.write("\n\n>>> EXCEPTION <<<\n{}\n".format(l))
