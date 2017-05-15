@@ -35,7 +35,7 @@ def scan(source, fltr, verbose=False, trial=False):
             for mutation in fltr.call_mutations(line):
                 pool += [mutation.compose()]
         except Exception as err:
-            sys.stderr.write(l)
+            sys.stderr.write("\n\n>>> EXCEPTION <<<\n{}\n".format(l))
             raise err
         l = source.readline()
 
