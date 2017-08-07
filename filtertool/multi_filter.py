@@ -18,6 +18,13 @@ class MFAlgorithm(object):
         '''
         return False
 
+    @abstractmethod
+    def required_samples(self):
+        '''
+        : return: number of required samples
+        '''
+        return 1
+
 
 class Fishers(MFAlgorithm):
     '''
@@ -39,6 +46,9 @@ class Fishers(MFAlgorithm):
         ]
         _, pvalue = scipy.stats.fisher_exact(table)
         return pvalue < self.pvalue
+
+    def required_samples(self):
+        return 2
 
 class MultiFilter(object):
     '''
@@ -62,3 +72,11 @@ class MultiFilter(object):
         if self.alg is None or isinstance(self.alg.match, types.MethodType) is False:
             return True
         return self.alg.match(line, key)
+
+    def required_samples(self):
+        '''
+        required_samples
+        '''
+        if self.alg is None or isinstance(self.alg.match, types.MethodType) is False:
+            return 1
+        return self.alg.required_samples()

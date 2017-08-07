@@ -24,6 +24,10 @@ class Filter(object):
         '''
         __match
         '''
+
+        if self.multi_filter is not None and len(line.variants) < self.multi_filter.required_samples:
+            raise ValueError("The input pileup file doesn't have enough samples to apply specified algorithm ({0})".format(type(self.multi_filter.alg).__name__))
+
         mutations = []
 
         first = line.variants[0]
